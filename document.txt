@@ -1,0 +1,30 @@
+10:55 AM Feb 9,2024   ---  Tearget Feb 29 , 2024
+
+	Project 1 - Cafe
+
+Client Module
+	Login
+	Order Details
+	Report
+
+Admin Module
+	Login page
+	Dashboard
+	Product List - Add , Edit , View , Delete
+	Client List
+	Employee List
+	User List
+	Stock List
+	Order List
+
+Report
+
+Settings
+
+
+12:22 PM 2/20/2024  - Task
+
+	Dashboard - Jebarlin
+	Employee Validation - Jestin , sattanathan
+	
+	
