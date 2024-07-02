@@ -47,6 +47,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'assignTask') {
     $syllabus =  $_POST['syllabusName'];
     $taskName =  $_POST['taskName'];
     $duration=$_POST['duration'];
+    $trainer=$_POST['trainer'];
 
     // Check if the current date already exists for the given student ID
     $select_date_query = "SELECT `task_detail` FROM `task_detail` WHERE `student_id` = '$student_id' AND DATE(`created_at`) = '$currentDate'";
@@ -66,7 +67,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'assignTask') {
             "taskName_id" => $taskNames,
             "duration" => $duration,
             "status" => "Pending",
-            "start_date" => $currentDateTime
+            "start_date" => $currentDateTime,
+            "trainer"=>$trainer
         ];
         }
 
@@ -91,7 +93,9 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'assignTask') {
                 "taskName_id" => $taskNames,
                 "duration" => $duration,
                 "status" => "Pending",
-                "start_date" => $currentDateTime
+                "start_date" => $currentDateTime,
+                "trainer"=>$trainer
+
             ];
             }
         $jsondata = json_encode($data);

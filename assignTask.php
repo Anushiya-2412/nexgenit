@@ -46,6 +46,27 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-sm-6">
+                            <div class="form-group pb-3">
+                                <label for="trainer" class="form-label"><b>Trainer</b></label>
+                                <select class="form-control" id="trainer" name="trainer" required="required">
+                                    <option value="">----select----</option>
+                                    <?php 
+                                        $select_trainer="SELECT employee_tbl.*, emp_additional_tbl.* FROM employee_tbl
+                                         LEFT JOIN emp_additional_tbl ON emp_additional_tbl.emp_id = employee_tbl.emp_id WHERE employee_tbl.emp_status='Active' AND emp_additional_tbl.emp_role='Trainer'";
+                                         $res_trainer=mysqli_query($conn,$select_trainer);
+                                         while($row_trainer=mysqli_fetch_array($res_trainer,MYSQLI_ASSOC))
+                                         {
+                                            $emp_id=$row_trainer['emp_id'];
+                                            $emp_fname=$row_trainer['emp_first_name'];
+                                            $emp_lname=$row_trainer['emp_last_name'];
+                                            $ename=$emp_fname." ".$emp_lname;
+                                            echo '<option value="' . $emp_id . '">' . $ename . '</option>';
+                                         }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                        
                         <div class="col-sm-12">
                             <div class="form-group pb-3">
@@ -78,6 +99,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+    //Handles to calculate the duration
 $(document).ready(function() {
     $('#task_Name').change(function() {
         var selectedTaskIds = $(this).val();

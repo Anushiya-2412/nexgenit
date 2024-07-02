@@ -112,7 +112,7 @@ WHERE b.stu_status = 'Active'
                 $duration = htmlspecialchars($task['duration']);
                 $status = htmlspecialchars($task['status']);
                 $start_date = htmlspecialchars($task['start_date']);
-                $date_only = date('Y-m-d', strtotime($start_date));
+                $date_only = date('d-m-Y', strtotime($start_date));
 
                 // Only display tasks with 'Pending' status
                 if ($status === 'Pending') {

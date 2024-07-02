@@ -135,7 +135,9 @@ if ($task_res->num_rows > 0) {
     <thead>
         <tr class="bg-light">
             <th scope="col">S.No.</th>
+            <th scope="col">Date</th>
             <th scope="col">Task</th>
+            <th scope="col">Trainer</th>
             <th scope="col">Status</th>
             <th scope="col">Syllabus</th>
             <th scope="col">Action</th>
@@ -152,11 +154,15 @@ if ($task_res->num_rows > 0) {
             
             $status = htmlspecialchars($taskDetails['status']);
             $task_id = htmlspecialchars($taskDetails['task_id']);
-            
+            $start_date=htmlspecialchars($taskDetails['start_date']);
+            $date_only = date('d-m-Y', strtotime($start_date));
+            $trainer=htmlspecialchars($taskDetails['trainer']);
         ?>
         <tr>
             <td><?php echo $i++; ?></td>
+            <td><?php echo $date_only; ?></td>
             <td><?php echo gettaskName($taskNameId); ?></td>
+            <td><?php echo getTrainerName($trainer); ?></td>
             <td><?php echo $status; ?></td>
             <td><?php echo getsyllabusName($syllabusId);?></td>
             

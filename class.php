@@ -91,6 +91,39 @@ function getsyllabusName($syllabusId) {
     }
 }
 
+//---------------Trainer name------------------------------
+  // Function to fetch Trainer name 
+function getTrainerName($trainerId) {
+    global $conn; // Assuming $conn is your database connection object
+
+    // Escape the course ID to prevent SQL injection
+    $trainerId = mysqli_real_escape_string($conn, $trainerId);
+
+    // Query to retrieve course name based on course_id
+    $trainer_query = "SELECT employee_tbl.*, emp_additional_tbl.* FROM employee_tbl
+LEFT JOIN emp_additional_tbl ON emp_additional_tbl.emp_id = employee_tbl.emp_id WHERE employee_tbl.emp_status='Active'  AND employee_tbl.emp_id='$trainerId'";
+
+    // Execute the query
+    $trianer_result = $conn->query($trainer_query);
+
+    // Check if query was successful
+    if ($trianer_result) {
+        // Fetch the course name
+        $trainer_row = $trianer_result->fetch_assoc();
+        if ($trainer_row) {
+            $empFname = $trainer_row['emp_first_name'];
+            $empLname =$trainer_row['emp_last_name'];
+            $ename =$empFname ." ".$empLname ;
+            return $ename;
+        } else {
+            return "Trainer not found";
+        }
+    } else {
+        // Query execution failed
+        return "Query failed: " . $conn->error;
+    }
+}
+
 
 
 //---------------Course name------------------------------
