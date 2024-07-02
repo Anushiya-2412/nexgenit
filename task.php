@@ -7,10 +7,9 @@ session_start();
 FROM task_detail AS a
 LEFT JOIN student_tbl AS b ON a.student_id = b.stu_id
 WHERE b.stu_status = 'Active'
-  AND b.entity_id = 3
-  
-  AND a.created_at ='$currentDate'";
+  AND b.entity_id = 3";
     $resQuery = mysqli_query($conn , $selQuery);
+    $printedStudents = []; // To track printed student IDs
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,66 +75,82 @@ WHERE b.stu_status = 'Active'
              
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
-                    <thead>
-                        <tr class="bg-light">
-                                    <th scope="col-1">S.No.</th>
-                                    <th scope="col-1">Name</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Task</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Syllabus</th>
-                                    
-                                    <th scope="col">Action</th>
-                                    
-                      </tr>
-                    </thead>
-                    <tbody>
-                    <?php 
-                    $i = 1; // Counter for serial number
+    <thead>
+        <tr class="bg-light">
+            <th scope="col-1">S.No.</th>
+            <th scope="col">Date</th>
+            <th scope="col-1">Name</th>
+            <th scope="col">Course</th>
+            <th scope="col">Task</th>
+            <th scope="col">Status</th>
+            <th scope="col">Syllabus</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+        $serialNumber = 1; // Initialize serial number
+        
+        // Loop through each student's tasks
+        while ($row = mysqli_fetch_assoc($resQuery)): 
+            $student_id = $row['student_id'];
+            
+            // Check if the student ID is already printed
+            if (in_array($student_id, $printedStudents)) {
+                continue; // Skip if the student is already printed
+            }
+            
+            // Decode JSON data from task_detail column
+            $jsonData = $row['task_detail'];
+            $tasks = json_decode($jsonData, true);
+            
+            // Loop through each task in the JSON data
+            foreach ($tasks as $task_id => $task) {
+                $courseId = htmlspecialchars($task['course_id']);
+                $syllabusId = htmlspecialchars($task['syllabus_id']);
+                $taskNameId = htmlspecialchars($task['taskName_id']);
+                $duration = htmlspecialchars($task['duration']);
+                $status = htmlspecialchars($task['status']);
+                $start_date = htmlspecialchars($task['start_date']);
+                $date_only = date('Y-m-d', strtotime($start_date));
+
+                // Only display tasks with 'Pending' status
+                if ($status === 'Pending') {
+                    // Mark the student as printed
+                    $printedStudents[] = $student_id;
                     
-                    while ($row = mysqli_fetch_assoc($resQuery)): 
-                        $student_id = $row['student_id'];
-                        $task_id = $row['task_id'];
-                        // Decode JSON data from task_detail column
-                        $jsonData = $row['task_detail'];
-                        $tasks = json_decode($jsonData, true);
-                        
-                        foreach ($tasks as $taskId => $taskDetails):
-                            $courseId = htmlspecialchars($taskDetails['course_id']); // Assuming course_id is in taskDetails
-                            $syllabusId = htmlspecialchars($taskDetails['syllabus_id']);
-                            $taskNameId = htmlspecialchars($taskDetails['taskName_id']);
-                            $duration=htmlspecialchars($taskDetails['duration']);
-                            $status = htmlspecialchars($taskDetails['status']);
-                    
-                    ?>
-                     <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td id="stuName_<?php echo $task_id; ?>"><?php echo getStudentName($student_id); ?></td>
-                        <td id="courName_<?php echo $task_id; ?>"><?php echo getCourseName($courseId);?></td>
-                        <td  id="taskName_<?php echo $task_id; ?>"><?php echo gettaskName($taskNameId); ?></td> 
-                        <td><?php echo $status; ?></td>
-                        <td id="syllName_<?php echo $task_id; ?>"><?php echo getsyllabusName($syllabusId); ?></td>
-                        
-                        <td>
-                        <button style="display:none" type="button" title="Edit" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditTask(<?php echo $task_id; ?>);" data-bs-toggle="modal" data-bs-target="#editAssignTaskModal"><i class='bi bi-pencil-square'></i></button>
-                       
-                        <button class="btn btn-circle btn-success text-white modalBtn" title="View" onclick="goViewAssignTask(<?php echo $student_id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            
-                            
-                        </td>
-                      </tr>
-                      <?php 
-                        endforeach; 
-                    endwhile; 
-                      ?>
-                    </tbody>
-                  </table>
-                 
-                  <?php
-                    if ($resQuery->num_rows == 0) {
-                        echo "No tasks found for any student.";
-                    } 
-                  ?>
+                    // Print the student and task details
+        ?>
+        <tr>
+            <td><?php echo $serialNumber; $serialNumber++; ?></td>
+            <td id="start_date-<?php echo $task_id;?>"><?php echo $date_only; ?></td>
+            <td id="stuName_<?php echo $task_id; ?>"><?php echo getStudentName($student_id); ?></td>
+            <td id="courName_<?php echo $task_id; ?>"><?php echo getCourseName($courseId); ?></td>
+            <td id="taskName_<?php echo $task_id; ?>"><?php echo getTaskName($taskNameId); ?></td> 
+            <td><?php echo $status; ?></td>
+            <td id="syllName_<?php echo $task_id; ?>"><?php echo getSyllabusName($syllabusId); ?></td>
+            
+            <td style="text-align: center;">
+                <!-- Edit button (replace with your logic) -->
+                <button style="display:none" type="button" title="Edit" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditTask(<?php echo $task_id; ?>);" data-bs-toggle="modal" data-bs-target="#editAssignTaskModal"><i class='bi bi-pencil-square'></i></button>
+                <!-- View button (replace with your logic) -->
+                <button class="btn btn-circle btn-success text-white modalBtn" title="View" onclick="goViewAssignTask(<?php echo $student_id; ?>);"><i class="bi bi-eye-fill"></i></button>
+            </td>
+        </tr>
+        <?php 
+                    break; // Break the loop after printing the first pending task for this student
+                } // End of if status is 'Pending'
+            } // End of foreach loop for tasks
+        endwhile; // End of while loop for rows ($resQuery)
+        ?>
+    </tbody>
+</table>
+
+<?php
+if (mysqli_num_rows($resQuery) == 0) {
+    echo "No tasks found for any student.";
+}
+?>
 
                    
                   </div>
@@ -548,6 +563,7 @@ function goViewAssignTask(id)
         }
     });
 }
+
 </script>
 </body>
 

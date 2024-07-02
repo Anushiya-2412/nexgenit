@@ -81,12 +81,12 @@ WHERE
                                 <span class="detail"><?php echo  $course ;?></span>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <!-- <div class="col-sm-3">
                             <div class="card p-3">
                                 <h4>Course Fee</h4>
                                 <span class="detail"><?php echo $charge;?></span>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-sm-3">
                             <div class="card p-3">
                                 <h4>Course Duration</h4>
@@ -96,6 +96,7 @@ WHERE
                         
             </div>
             </form>   
+            <div></div>
       <?php
 include "class.php";
 $task_query = "SELECT *, 
@@ -214,7 +215,7 @@ function goConfirmTask(taskNameId, taskId) {
             },
             success: function(response) {
                 console.log('AJAX request succeeded:', response); // Debugging line
-                $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function(responseText, textStatus, req) {
+                $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable> *', function(responseText, textStatus, req) {
                     if (textStatus == "success") {
                         // Reinitialize DataTables if you are using it
                         if ($.fn.DataTable.isDataTable('#scroll-horizontal-datatable')) {
@@ -227,14 +228,14 @@ function goConfirmTask(taskNameId, taskId) {
                         });
                     } else {
                         console.error('Failed to reload table:', textStatus); // Debugging line
-                        $('#scroll-horizontal-datatable').hide();
+                        $('scroll-horizontal-datatable').hide();
                     }
                 });
             },
             error: function(xhr, status, error) {
                 console.error('AJAX request failed:', status, error); // Debugging line
                 // Hide the table if AJAX request fails
-                $('#scroll-horizontal-datatable').hide();
+                $('scroll-horizontal-datatable').hide();
             }
         });
     }

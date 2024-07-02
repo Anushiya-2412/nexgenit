@@ -5,8 +5,37 @@ include("../class.php");
 
 header('Content-Type: application/json');
 
-$response = ['success' => false, 'message' => ''];
+$response = ['success' => false, 'message' => '', 'total_duration' => 0];
 
+// Handle AJAX request for fetching total duration
+if (isset($_POST['taskIds']) && is_array($_POST['taskIds'])) {
+    $taskIds = $_POST['taskIds'];
+
+    $escapedTaskIds = array_map(function($taskId) use ($conn) {
+        return mysqli_real_escape_string($conn, $taskId);
+    }, $taskIds);
+
+    $taskIdsString = implode("','", $escapedTaskIds);
+
+    $query = "SELECT SUM(task_duration) AS total_duration FROM `task_tbl` WHERE `task_id` IN ('$taskIdsString')";
+    $result = $conn->query($query);
+
+    if ($result) {
+        $row = $result->fetch_assoc();
+        if ($row) {
+            $response['success'] = true;
+            $response['total_duration'] = $row['total_duration'];
+        } else {
+            $response['message'] = 'No durations found';
+        }
+    } else {
+        $response['message'] = 'Query failed: ' . $conn->error;
+    }
+
+    // Output the response as a single JSON object
+    echo json_encode($response);
+    exit(); // Ensure script stops execution after sending response
+}
 // Display the current date and time
 
 
@@ -126,6 +155,9 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAssignTask') {
     echo json_encode($response);
     exit();
 }
+
+
 ?>
+
 
 

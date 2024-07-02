@@ -75,5 +75,39 @@
     </div> <!-- end modal dialog-->
 </div> <!-- end modal-->
 
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script>
+$(document).ready(function() {
+    $('#task_Name').change(function() {
+        var selectedTaskIds = $(this).val();
+
+        if (selectedTaskIds.length > 0) {
+            $.ajax({
+                url: "action/actAssignTask.php",
+                type: 'POST',
+                data: { taskIds: selectedTaskIds },
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+
+                    if (response.success) {
+                        $('#duration').val(response.total_duration);
+                    } else {
+                        console.error('Error: ' + response.message);
+                        $('#duration').val('');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error: ' + error);
+                    $('#duration').val('');
+                }
+            });
+        } else {
+            $('#duration').val('');
+        }
+    });
+});
+
+
+</script>
