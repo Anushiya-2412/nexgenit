@@ -3,6 +3,7 @@
 session_start();
     include("db/dbConnection.php");
     $currentDate = date('Y-m-d'); 
+
     $selQuery = "SELECT a.*, b.*
 FROM task_detail AS a
 LEFT JOIN student_tbl AS b ON a.student_id = b.stu_id
@@ -545,7 +546,7 @@ function goEditTask(taskId)
 }
 function goViewAssignTask(id)
 {
-    //location.href = "clientDetail.php?clientId="+id;
+    // location.href = "assignTaskDetails.php?id="+id;
     $.ajax({
         url: 'assignTaskDetail.php',
         method: 'POST',
@@ -562,7 +563,7 @@ function goViewAssignTask(id)
             console.error('AJAX request failed:', status, error);
         }
     });
-}
+} 
 
 </script>
 </body>

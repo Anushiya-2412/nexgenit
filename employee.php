@@ -111,8 +111,9 @@ LEFT JOIN emp_additional_tbl ON emp_additional_tbl.emp_id = employee_tbl.emp_id 
                       <td>
                           <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditEmp(<?php echo $emp_id; ?>);" data-bs-toggle="modal" data-bs-target="#editEmployeeModal"><i class='bi bi-pencil-square'></i></button>
                           <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewEmp(<?php echo $emp_id; ?>);" ><i class='bi bi-eye-fill'></i></button>
+                          <button type="button" id="docEmp" class="btn btn-circle btn-primary text-white modalBtn" onclick="goDocEmp(<?php echo $emp_id; ?>);" data-bs-toggle="modal" data-bs-target="#docEmployeeModal"><i class='bi bi-file-earmark-text'></i></button>
                           <button class="btn btn-circle btn-danger text-white" onclick="goDeleteEmployee(<?php echo $emp_id; ?>);"><i class='bi bi-trash'></i></button>
-                          <button type="button" id="docEmp" class="btn btn-circle btn-success text-white modalBtn" onclick="goDocEmp(<?php echo $emp_id; ?>);" data-bs-toggle="modal" data-bs-target="#docEmployeeModal"><i class='bi bi-file-earmark-text'></i></button>
+                          
                       </td>
                     </tr>
                     <?php } ?>                        

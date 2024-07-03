@@ -32,52 +32,12 @@ if(isset($_POST['id']) && $_POST['id'] != '') {
               <button type="button" class="btn btn-danger" onclick="javascript:location.href='syllabus.php'" >Back</button>
             </div>
             </div>   
-           <!-- <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="card p-3">
-                                <h4>Name</h4> 
-                                <span class="detail"><?php echo $name;?></span>
-                            </div>
-                        </div>  
-                         <div class="col-sm-3 ">
-                            <div class="card p-3">
-                                <h4>Course Name</h4>
-                                <span class="detail"><?php echo  $course ;?></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="card p-3">
-                                <h4>Place</h4>
-                                <span class="detail"><?php echo $location;?></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="card p-3">
-                                <h4>Email Id</h4>
-                                <span class="detail"><?php echo $email;?></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="card p-3">
-                                <h4>Mobile No.</h4>
-                                <span class="detail"><?php echo  $mobile;?></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-3 ">
-                            <div class="card p-3">
-                                <h4>Aadhar Number</h4>
-                                <span class="detail"><?php echo $aadhar;?></span>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-            </form>    -->
+          
             <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Syllabus</th>
+                                    <!-- <th scope="col">Syllabus</th> -->
                                     <th scope="col">Topic</th>
                                     <th scope="col">Topic Duration</th>
                                     <th scope="col">Course</th>
@@ -97,7 +57,7 @@ if(isset($_POST['id']) && $_POST['id'] != '') {
                         ?>
                      <tr>
                         <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $syllabu; ?></td>
+                        <!-- <td><?php echo $syllabu; ?></td> -->
                         <td><?php echo $topic; ?></td>
                         <td><?php echo $topic_duration; ?></td>
                         <td><?php echo $course; ?></td>
